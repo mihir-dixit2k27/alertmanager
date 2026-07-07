@@ -592,7 +592,15 @@ func (c *Config) UnmarshalYAML(unmarshal func(any) error) error {
 			if msteamsv2 == nil {
 				return errors.New("missing msteamsv2 config")
 			}
-			msteamsv2.HTTPConfig = cmp.Or(msteamsv2.HTTPConfig, c.Global.HTTPConfig)
+			if msteamsv2.HTTPConfig == nil {
+				// copy the global config so receiver-level mutations don't affect it
+				httpCfg := *c.Global.HTTPConfig
+				msteamsv2.HTTPConfig = &httpCfg
+			} else if msteamsv2.HTTPConfig.ProxyConfig.ProxyURL.URL == nil {
+				// receiver has a partial http_config but no proxy set,
+				// so fall back to the global proxy settings
+				msteamsv2.HTTPConfig.ProxyConfig = c.Global.HTTPConfig.ProxyConfig
+			}
 			if msteamsv2.WebhookURL == nil && len(msteamsv2.WebhookURLFile) == 0 {
 				return errors.New("no msteamsv2 webhook URL or URLFile provided")
 			}
