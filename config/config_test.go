@@ -1823,10 +1823,10 @@ receivers:
 	if rc.HTTPConfig == nil {
 		t.Fatal("expected HTTPConfig to be non-nil")
 	}
-	if rc.HTTPConfig.ProxyConfig.ProxyURL.URL == nil {
+	if rc.HTTPConfig.ProxyURL.URL == nil {
 		t.Fatal("expected global proxy_url to be inherited")
 	}
-	if got := rc.HTTPConfig.ProxyConfig.ProxyURL.String(); got != "http://proxy.example.com:3128" {
+	if got := rc.HTTPConfig.ProxyURL.String(); got != "http://proxy.example.com:3128" {
 		t.Errorf("expected proxy_url %q, got %q", "http://proxy.example.com:3128", got)
 	}
 }
@@ -1858,10 +1858,10 @@ receivers:
 	if rc.HTTPConfig == nil {
 		t.Fatal("expected HTTPConfig to be non-nil")
 	}
-	if rc.HTTPConfig.ProxyConfig.ProxyURL.URL == nil {
+	if rc.HTTPConfig.ProxyURL.URL == nil {
 		t.Fatal("expected global proxy_url to be inherited into partial http_config")
 	}
-	if got := rc.HTTPConfig.ProxyConfig.ProxyURL.String(); got != "http://proxy.example.com:3128" {
+	if got := rc.HTTPConfig.ProxyURL.String(); got != "http://proxy.example.com:3128" {
 		t.Errorf("expected proxy_url %q, got %q", "http://proxy.example.com:3128", got)
 	}
 }
@@ -1890,10 +1890,10 @@ receivers:
 	}
 
 	rc := cfg.Receivers[0].MSTeamsV2Configs[0]
-	if rc.HTTPConfig.ProxyConfig.ProxyURL.URL == nil {
+	if rc.HTTPConfig.ProxyURL.URL == nil {
 		t.Fatal("expected proxy_url to be set")
 	}
-	if got := rc.HTTPConfig.ProxyConfig.ProxyURL.String(); got != "http://local-proxy.example.com:8080" {
+	if got := rc.HTTPConfig.ProxyURL.String(); got != "http://local-proxy.example.com:8080" {
 		t.Errorf("expected local proxy_url %q, got %q", "http://local-proxy.example.com:8080", got)
 	}
 }
