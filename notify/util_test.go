@@ -291,7 +291,10 @@ func TestTmplTextWithLogger_LogsOnError(t *testing.T) {
 
 	require.Error(t, tmplErr)
 	require.Empty(t, result)
-	require.Contains(t, buf.String(), "template execution failed")
+	logOutput := buf.String()
+	require.Contains(t, logOutput, "template execution failed")
+	require.Contains(t, logOutput, "{{ .Missing")   // template name is logged
+	require.Contains(t, logOutput, tmplErr.Error()) // rendering error is logged
 
 	// Subsequent calls must short-circuit without logging again.
 	buf.Reset()
@@ -315,5 +318,8 @@ func TestTmplHTMLWithLogger_LogsOnError(t *testing.T) {
 
 	require.Error(t, tmplErr)
 	require.Empty(t, result)
-	require.Contains(t, buf.String(), "template execution failed")
+	logOutput := buf.String()
+	require.Contains(t, logOutput, "template execution failed")
+	require.Contains(t, logOutput, "{{ .Missing")   // template name is logged
+	require.Contains(t, logOutput, tmplErr.Error()) // rendering error is logged
 }
